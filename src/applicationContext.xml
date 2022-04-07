@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans>
+    <!--dao-->
+    <bean id="userDAO" class="com.axx.book.dao.Impl.UserDAOImpl"></bean>
+    <bean id="bookDAO" class="com.axx.book.dao.Impl.BookDAOImpl"></bean>
+    <bean id="cartItemDAO" class="com.axx.book.dao.Impl.CartItemDAOImpl"></bean>
+    <bean id="orderDAO" class="com.axx.book.dao.Impl.OrderDAOImpl"></bean>
+    <bean id="orderItemDAO" class="com.axx.book.dao.Impl.OrderItemDAOImpl"></bean>
+
+    <!--service-->
+    <bean id="userService" class="com.axx.book.service.Impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"></property>
+    </bean>
+    <bean id="bookService" class="com.axx.book.service.Impl.BookServiceImpl">
+        <property name="bookDAO" ref="bookDAO"></property>
+    </bean>
+    <bean id="cartItemService" class="com.axx.book.service.Impl.CartItemServiceImpl">
+        <property name="cartItemDAO" ref="cartItemDAO"></property>
+        <property name="bookService" ref="bookService"></property>
+    </bean>
+    <bean id="orderService" class="com.axx.book.service.Impl.OrderServiceImpl">
+        <property name="cartItemDAO" ref="cartItemDAO"></property>
+        <property name="orderDAO" ref="orderDAO"></property>
+        <property name="orderItemDAO" ref="orderItemDAO"></property>
+    </bean>
+
+    <!--controller-->
+    <bean id="user" class="com.axx.book.controller.UserController">
+        <property name="userService" ref="userService"></property>
+        <property name="cartItemService" ref="cartItemService"></property>
+    </bean>
+    <bean id="book" class="com.axx.book.controller.BookController">
+        <property name="bookService" ref="bookService"></property>
+    </bean>
+    <bean id="cart" class="com.axx.book.controller.CartController">
+        <property name="cartItemService" ref="cartItemService"></property>
+    </bean>
+    <bean id="order" class="com.axx.book.controller.OrderController">
+        <property name="orderService" ref="orderService"></property>
+    </bean>
+
+    <bean id="page" class="com.axx.myssm.myspringmvc.PageController"></bean>
+</beans>
